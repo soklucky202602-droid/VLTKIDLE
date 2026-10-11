@@ -45,13 +45,24 @@
     tabs.forEach(x=>x.onclick=()=>setMode(x.dataset.mode));
     el.querySelector('#vltkRegLink').onclick=()=>setMode('register');
     el.querySelector('#vltkDeviceLink').onclick=()=>setMode('device');
-    el.querySelector('#vltkGuest').onclick=()=>{el.remove();try{localStorage.setItem('vltk_guest','1')}catch(e){}};
+    el.querySelector('#vltkGuest').onclick=()=>el.remove();
     if(!ready){msg.textContent='Chưa cấu hình máy chủ tài khoản.';submit.disabled=true;return}
     form.onsubmit=async e=>{e.preventDefault();if(mode==='device')return;msg.textContent='Đang xử lý...';submit.disabled=true;try{if(!sb)throw Error('Máy chủ chưa sẵn sàng');const email=el.querySelector('#vltkEmail').value.trim().toLowerCase(),password=el.querySelector('#vltkPass').value;if(mode==='register'){if(password!==el.querySelector('#vltkConfirm').value)throw Error('Mật khẩu nhập lại không khớp');const r=await sb.auth.signUp({email,password});if(r.error)throw r.error;msg.textContent=r.data.session?'Đăng ký thành công.':'Đăng ký thành công, hãy kiểm tra email để xác nhận.';if(r.data.session)location.reload()}else{const r=await sb.auth.signInWithPassword({email,password});if(r.error)throw r.error;location.reload()}}catch(err){msg.textContent=err.message||'Không thể đăng nhập.'}finally{submit.disabled=false}};
   }
   async function boot(){
     if(!ready){mount();return}
-    try{if(!window.supabase){const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';await new Promise((r,j)=>{s.onload=r;s.onerror=j});document.head.appendChild(s)}sb=window.supabase.createClient(C.url,C.anonKey);const {data}=await sb.auth.getSession();window.VLTKAuth={mount,enabled:true,client:()=>sb,session:data.session||null};if(!data.session&&!localStorage.getItem('vltk_guest'))mount();sb.auth.onAuthStateChange((_e,session)=>{window.VLTKAuth.session=session||null;if(session){const x=document.getElementById('vltkAuth');if(x)x.remove()}})}catch(e){mount()}
+    try{
+      if(!window.supabase){
+        const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+        await new Promise((r,j)=>{s.onload=r;s.onerror=j});document.head.appendChild(s)
+      }
+      sb=window.supabase.createClient(C.url,C.anonKey);
+      const {data}=await sb.auth.getSession();
+      window.VLTKAuth={mount,enabled:true,client:()=>sb,session:data.session||null};
+      if(!data.session)mount();
+      sb.auth.onAuthStateChange((_e,session)=>{window.VLTKAuth.session=session||null;if(session){const x=document.getElementById('vltkAuth');if(x)x.remove()}})
+    }catch(e){mount()}
   }
-  window.VLTKAuth={mount,enabled:ready,session:null};document.addEventListener('DOMContentLoaded',boot);
+  window.VLTKAuth={mount,enabled:ready,session:null};
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
 })();
