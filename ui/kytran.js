@@ -4,8 +4,9 @@
   const esc0 = (v) => String(v ?? "").replace(/[&<>\"']/g, c => c === "&" ? "&amp;" : c === "<" ? "&lt;" : c === ">" ? "&gt;" : c === '"' ? "&quot;" : "&#39;");
   const css = document.createElement("style");
   css.textContent = `
-    #kyTranBtn{position:absolute;right:178px;top:2px;width:58px;height:58px;z-index:9;display:grid;place-items:center;padding:0;border:2px solid #9c7a32;border-radius:50%;background:radial-gradient(circle at 35% 30%,#6f633d 0,#342e1d 42%,#171812 78%);box-shadow:0 0 0 2px #15150f,0 0 8px rgba(0,0,0,.9),inset 0 0 8px rgba(255,214,92,.25);color:#f2e6bd;cursor:pointer;font:700 11px/14px var(--font,Tahoma,Arial,sans-serif);text-align:center;text-shadow:1px 1px 2px #000;box-sizing:border-box}
-    #kyTranBtn::before{content:"";position:absolute;inset:3px;border:1px solid #c7a64e;border-radius:50%;opacity:.7;pointer-events:none}
+    #kyTranBtn{position:relative!important;right:auto!important;top:auto!important;width:40px!important;height:40px!important;min-width:40px!important;z-index:9;display:grid;place-items:center;padding:0;margin:0;border:1px solid #d1aa4f;border-radius:50%;background:radial-gradient(circle at 35% 30%,#5b4b29 0,#211b11 72%);box-shadow:0 0 0 1px #15150f,0 2px 6px #000b,inset 0 0 8px #f1ce6130;color:#f3dfa0;cursor:pointer;font:700 10px/12px var(--font,Tahoma,Arial,sans-serif);text-align:center;text-shadow:1px 1px 2px #000;box-sizing:border-box}
+    #kyTranBtn::before{content:"";position:absolute;inset:3px;border:1px solid #c9a952;border-radius:50%;opacity:.7;pointer-events:none}
+    #kyTranBtn:hover{filter:brightness(1.12)}
     .mbox.kytran-modal{width:min(960px,calc(100vw - 28px))!important;max-width:960px!important;min-width:0!important;box-sizing:border-box}
     .kytran-modal #mBody{padding:0!important;overflow:hidden}
     .kytran-modal h3{height:48px!important;margin:0!important;padding:12px 52px 8px!important;box-sizing:border-box;text-align:center;font-size:20px!important;letter-spacing:1px;color:#f1dfad!important;text-shadow:0 1px 2px #000;border-bottom:1px solid #786a43;background:linear-gradient(180deg,#35392e,#171b16)}
@@ -47,6 +48,17 @@
       document.querySelectorAll("#mBody [data-kt-use]").forEach(b=>b.onclick=()=>{const it=ITEMS.find(x=>x.id===b.dataset.ktUse);if(it)use(it)});
     });
   };
-  function mount(){const battle=$("#battle");if(!battle||$("#kyTranBtn"))return;const btn=document.createElement("button");btn.id="kyTranBtn";btn.type="button";btn.title="Mở Kỳ Trân Các";btn.innerHTML="<span>Kỳ Trân<br>Các</span>";btn.onclick=()=>{if(!S||!S.fac)return;if(typeof uiSfx==="function")uiSfx("click");kyTranModal()};battle.appendChild(btn)}
+  function mount(){
+    const host=$("#jxR");
+    if(!host||$("#kyTranBtn"))return;
+    const btn=document.createElement("button");
+    btn.id="kyTranBtn";
+    btn.type="button";
+    btn.title="Mở Kỳ Trân Các";
+    btn.className="rbtn kytran-rbtn";
+    btn.innerHTML="<span>Kỳ Trân<br>Các</span>";
+    btn.onclick=()=>{if(!S||!S.fac)return;if(typeof uiSfx==="function")uiSfx("click");kyTranModal()};
+    host.insertBefore(btn,host.firstChild);
+  }
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",mount,{once:true});else mount();
 })();
