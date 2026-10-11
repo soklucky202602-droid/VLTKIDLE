@@ -1,7 +1,9 @@
 (function(){
   'use strict';
   const C=window.VLTK_AUTH_CONFIG||{}; const ready=!!(C.url&&C.anonKey); let sb=null;
-  const DOMAIN='@vltkidle.local';
+  // Supabase Auth still requires a syntactically valid email internally.
+  // Players only see/use the username; this is a private synthetic address.
+  const DOMAIN='@vltkidle.com';
   const normalizeUsername=v=>String(v||'').trim().toLowerCase();
   const validUsername=v=>/^[a-z0-9_]{3,20}$/.test(v);
   const internalEmail=v=>normalizeUsername(v)+DOMAIN;
