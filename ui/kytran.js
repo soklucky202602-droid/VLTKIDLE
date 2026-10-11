@@ -24,12 +24,12 @@
     {cat:"utility",id:"que_hoa_tuu",name:"Quế Hoa Tửu",price:"20 KNB",pay:"knb",cost:20,desc:"+20 may mắn trong 60 phút: đồ rơi nhiều",icon:"img/i/0_5.png",action:"Mua",buy(){giveStock(this.id)}},
     {cat:"utility",id:"lenh_bai_da_tau",name:"Lệnh Bài Dã Tẩu",price:"50 KNB",pay:"knb",cost:50,desc:"Hôm nay 5/5 · có 0",icon:"img/i/0_6.png",action:"Mua",use:true,buy(){giveStock(this.id)}},
     {cat:"utility",id:"exchange",name:"Đổi KNB → Lượng",price:"1 KNB = 8 vạn 0 lượng",pay:"knb",cost:1,desc:"Mua 1 KNB = 10 vạn lượng · đổi lại được 80%",icon:"img/i/0_7.png",action:"Đổi",buy(){S.gold=(S.gold||0)+80000;toast("Đổi 1 KNB nhận 8 vạn lượng")}},
-    {cat:"rare",id:"ruong_huyen_tinh",name:"Rương Huyền Tinh",price:"3 vạn",pay:"gold",cost:30000,desc:"1-2 Đá Tinh Vân Khoáng Thạch, mỗi viên cá",icon:"img/i/0_8.png",action:"Mua",buy(){giveStock(this.id)}},
-    {cat:"rare",id:"ruong_da_thuoc_tinh",name:"Rương Đá Thuộc Tính",price:"5 vạn",pay:"gold",cost:50000,desc:"1-2 đá thuộc tính (hợp hệ / loại đồ đang",icon:"img/i/0_9.png",action:"Mua",buy(){giveStock(this.id)}},
-    {cat:"rare",id:"bi_kip_90",name:"Bí Kíp 90",price:"50 KNB",pay:"knb",cost:50,desc:"Đang có 8",icon:"img/i/0_15.png",action:"Mua",use:true,buy(){giveStock(this.id)}},
-    {cat:"rare",id:"dai_thanh_bi_kip",name:"Đại Thành Bí Kíp",price:"250 KNB",pay:"knb",cost:250,desc:"Đang có 0",icon:"img/i/0_16.png",action:"Mua",use:true,buy(){giveStock(this.id)}},
-    {cat:"rare",id:"vo_lam_mat_tich",name:"Võ Lâm Mật Tịch",price:"100 KNB",pay:"knb",cost:100,desc:"Đã dùng 0/25 · có 0",icon:"img/i/0_17.png",action:"Mua",use:true,buy(){giveStock(this.id)}},
-    {cat:"rare",id:"tay_tuy_kinh",name:"Tẩy Tủy Kinh",price:"100 KNB",pay:"knb",cost:100,desc:"Đã dùng 0/45 · có 0",icon:"img/i/0_18.png",action:"Mua",use:true,buy(){giveStock(this.id)}},
+    {cat:"rare",id:"ruong_huyen_tinh",name:"Rương Huyền Tinh",price:"3 vạn",pay:"gold",cost:30000,desc:"1-2 Đá Tinh Vân Khoáng Thạch, mỗi viên cá",icon:"img/i/0_10.png",action:"Mua",buy(){giveStock(this.id)}},
+    {cat:"rare",id:"ruong_da_thuoc_tinh",name:"Rương Đá Thuộc Tính",price:"5 vạn",pay:"gold",cost:50000,desc:"1-2 đá thuộc tính (hợp hệ / loại đồ đang",icon:"img/i/0_11.png",action:"Mua",buy(){giveStock(this.id)}},
+    {cat:"rare",id:"bi_kip_90",name:"Bí Kíp 90",price:"50 KNB",pay:"knb",cost:50,desc:"Đang có 8",icon:"img/i/0_12.png",action:"Mua",use:true,buy(){giveStock(this.id)}},
+    {cat:"rare",id:"dai_thanh_bi_kip",name:"Đại Thành Bí Kíp",price:"250 KNB",pay:"knb",cost:250,desc:"Đang có 0",icon:"img/i/0_14.png",action:"Mua",use:true,buy(){giveStock(this.id)}},
+    {cat:"rare",id:"vo_lam_mat_tich",name:"Võ Lâm Mật Tịch",price:"100 KNB",pay:"knb",cost:100,desc:"Đã dùng 0/25 · có 0",icon:"img/i/0_15.png",action:"Mua",use:true,buy(){giveStock(this.id)}},
+    {cat:"rare",id:"tay_tuy_kinh",name:"Tẩy Tủy Kinh",price:"100 KNB",pay:"knb",cost:100,desc:"Đã dùng 0/45 · có 0",icon:"img/i/0_16.png",action:"Mua",use:true,buy(){giveStock(this.id)}},
     {cat:"special",id:"lenh_bai_doi_phai",name:"Lệnh Bài Đổi Phái",price:"200 KNB",pay:"knb",cost:200,desc:"Đang có 0",icon:"img/i/0_20.png",action:"Mua",use:true,buy(){giveStock(this.id)}},
     {cat:"special",id:"the_doi_gioi_tinh",name:"Thẻ Đổi Giới Tính",price:"100 KNB",pay:"knb",cost:100,desc:"Đang có 0",icon:"img/i/0_21.png",action:"Mua",use:true,buy(){giveStock(this.id)}}
   ];
