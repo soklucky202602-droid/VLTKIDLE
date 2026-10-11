@@ -38,6 +38,7 @@
       note.textContent=m==='register'?'Tạo tài khoản mới để lưu nhân vật và đồng bộ dữ liệu online.':m==='device'?'Nhập mã chuyển thiết bị để khôi phục tài khoản và nhân vật từ máy khác.':'Nhập tên tài khoản và mật khẩu để tiếp tục hành tẩu giang hồ trên thiết bị này.';
       msg.textContent='';
       if(m==='device'){
+        const old=el.querySelector('.vltk-device-box');if(old)old.remove();
         note.insertAdjacentHTML('afterend','<div class="vltk-device-box"><b>Chuyển thiết bị</b><p>Tính năng khôi phục bằng mã sẽ dùng tài khoản online hiện tại. Hãy đăng nhập tài khoản trên thiết bị mới để đồng bộ nhân vật.</p><button type="button" id="vltkBackLogin">← Quay lại đăng nhập</button></div>');
         el.querySelector('#vltkBackLogin').onclick=()=>{const b=el.querySelector('.vltk-device-box');if(b)b.remove();setMode('login')};
       } else {const b=el.querySelector('.vltk-device-box');if(b)b.remove()}
@@ -45,23 +46,32 @@
     tabs.forEach(x=>x.onclick=()=>setMode(x.dataset.mode));
     el.querySelector('#vltkRegLink').onclick=()=>setMode('register');
     el.querySelector('#vltkDeviceLink').onclick=()=>setMode('device');
-    el.querySelector('#vltkGuest').onclick=()=>el.remove();
+    el.querySelector('#vltkGuest').onclick=()=>{try{sessionStorage.setItem('vltk_guest','1')}catch(e){};el.remove()};
     if(!ready){msg.textContent='Chưa cấu hình máy chủ tài khoản.';submit.disabled=true;return}
     form.onsubmit=async e=>{e.preventDefault();if(mode==='device')return;msg.textContent='Đang xử lý...';submit.disabled=true;try{if(!sb)throw Error('Máy chủ chưa sẵn sàng');const email=el.querySelector('#vltkEmail').value.trim().toLowerCase(),password=el.querySelector('#vltkPass').value;if(mode==='register'){if(password!==el.querySelector('#vltkConfirm').value)throw Error('Mật khẩu nhập lại không khớp');const r=await sb.auth.signUp({email,password});if(r.error)throw r.error;msg.textContent=r.data.session?'Đăng ký thành công.':'Đăng ký thành công, hãy kiểm tra email để xác nhận.';if(r.data.session)location.reload()}else{const r=await sb.auth.signInWithPassword({email,password});if(r.error)throw r.error;location.reload()}}catch(err){msg.textContent=err.message||'Không thể đăng nhập.'}finally{submit.disabled=false}};
   }
   async function boot(){
-    if(!ready){mount();return}
+    try{localStorage.removeItem('vltk_guest')}catch(e){}
+    let guest=false;try{guest=sessionStorage.getItem('vltk_guest')==='1'}catch(e){}
+    if(guest)return;
+    mount();
+    if(!ready)return;
     try{
       if(!window.supabase){
         const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
-        await new Promise((r,j)=>{s.onload=r;s.onerror=j});document.head.appendChild(s)
+        await Promise.race([
+          new Promise((r,j)=>{s.onload=r;s.onerror=j;document.head.appendChild(s)}),
+          new Promise((_,j)=>setTimeout(()=>j(Error('Auth CDN timeout')),6000))
+        ]);
       }
       sb=window.supabase.createClient(C.url,C.anonKey);
       const {data}=await sb.auth.getSession();
       window.VLTKAuth={mount,enabled:true,client:()=>sb,session:data.session||null};
-      if(!data.session)mount();
+      if(data.session){const x=document.getElementById('vltkAuth');if(x)x.remove()}
       sb.auth.onAuthStateChange((_e,session)=>{window.VLTKAuth.session=session||null;if(session){const x=document.getElementById('vltkAuth');if(x)x.remove()}})
-    }catch(e){mount()}
+    }catch(e){
+      const m=document.querySelector('#vltkAuthMsg');if(m)m.textContent='Chưa kết nối được máy chủ. Bạn vẫn có thể chơi khách.';
+    }
   }
   window.VLTKAuth={mount,enabled:ready,session:null};
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
