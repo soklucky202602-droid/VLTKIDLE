@@ -1,5 +1,4 @@
-// Fill these two values from your Supabase project after connecting it.
 window.VLTK_AUTH_CONFIG = {
-  url: "",
-  anonKey: ""
+  url: "https://getxendjerlcwgwnvted.supabase.co",
+  anonKey: "sb_publishable_bC4EDAb8zGQdHn7dMxLCPQ_YiCncl7d"
 };
