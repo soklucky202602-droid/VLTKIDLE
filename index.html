@@ -47,109 +47,22 @@
       <div id="jxOverflow" class="hidden" aria-label="Điều khiển bổ sung">
         <button class="rbtn" id="jxGear" data-jt="inv" data-ic="item" title="Trang bị và bộ lọc"><i></i><span class="sk">Bộ lọc</span></button>
       <button class="rbtn" id="jxSpd" data-ic="spd" title="Tốc độ game x1 / x1.5 / x2.5 (phím X)"><i></i><span class="sk">Tốc độ x1</span></button>
-
       <button class="rbtn" id="jxTidy" data-ic="item" title="Dọn đồ rác và mặc đồ tốt hơn"><i></i><span class="sk">Dọn đồ</span></button>
       <button class="rbtn" id="jxRot" data-ic="rot" title="Xoay chiêu tự động"><i></i><span class="sk">Xoay</span></button>
       <button class="rbtn" data-jt="more" data-ic="sys"><i></i><span class="sk">Hệ thống</span></button>
       </div>
     </div>
-    <div class="jxhide">
-      <button id="ctrlBtn"></button><button id="inBtn"></button><button id="rotBtn"></button><button id="compactBtn"></button>
-    </div>
+    <div class="jxhide"><button id="ctrlBtn"></button><button id="inBtn"></button><button id="rotBtn"></button><button id="compactBtn"></button></div>
     <div class="chat sk" id="jxChat"></div>
-    <div id="svHud" class="hidden">
-      <div id="svTopBar">
-        <span id="svGoldWrap"><img src="ui/v2/money2.png" alt=""> <b id="svGold">0</b></span>
-        <button id="svPauseBtn" class="pq">Tạm dừng</button>
-      </div>
-      <div id="svPad">
-        <button id="svUlt" class="pbtn ult"><div class="cd"></div><span class="lbl">Tuyệt kỹ</span><small class="lock"></small></button>
-        <button id="svBomb" class="pbtn bomb"><span class="lbl">Bom <b id="svBombCnt">0</b></span></button>
-        <button id="svHpBtn" class="pbtn pot hp"><div class="cd"></div><span>HP</span></button>
-      </div>
-    </div>
+    <div id="svHud" class="hidden"><div id="svTopBar"><span id="svGoldWrap"><img src="ui/v2/money2.png" alt=""> <b id="svGold">0</b></span><button id="svPauseBtn" class="pq">Tạm dừng</button></div><div id="svPad"><button id="svUlt" class="pbtn ult"><div class="cd"></div><span class="lbl">Tuyệt kỹ</span><small class="lock"></small></button><button id="svBomb" class="pbtn bomb"><span class="lbl">Bom <b id="svBombCnt">0</b></span></button><button id="svHpBtn" class="pbtn pot hp"><div class="cd"></div><span>HP</span></button></div></div>
     <div id="svBar" class="hidden"></div>
     <div id="townBar" class="hidden"><b id="townName"></b><button class="btn sm" id="bShop">Cửa hàng</button><button class="btn sm" id="bStashT">Kho chung</button><button class="btn sm" id="bSellTown">Bán đồ lọc</button><button class="btn sm on" id="bBack">Trở lại ải</button></div>
   </section>
-
-  <div class="bb" id="bb"><canvas id="bbc" width="355" height="92"></canvas><div class="bbtag" id="bbTag" aria-hidden="true"><b>Jx by Kingsoft</b><span class="sep">-</span><i>IDLE Version</i></div>
-    <div id="pad">
-      <button class="pbtn sk" data-i="0" aria-label="Ô kỹ năng 1"><i></i><b>1</b></button>
-      <button class="pbtn sk" data-i="1" aria-label="Ô kỹ năng 2"><i></i><b>2</b></button>
-      <button class="pbtn sk" data-i="2" aria-label="Ô kỹ năng 3"><i></i><b>3</b></button>
-      <button class="pbtn sk" data-i="3" aria-label="Ô kỹ năng 4"><i></i><b>4</b></button>
-      <button class="pbtn pot hp" id="bHp" title="Bình HP (Q)"><div class="cd"></div><span>HP</span></button>
-      <button class="pbtn pot mp" id="bMp" title="Bình MP (E)"><div class="cd"></div><span>MP</span></button>
-      <button class="pbtn pot tp" id="bTp" title="Thổ Địa Phù: về thành"><i aria-hidden="true"></i><div class="cd"></div><span>TP</span></button>
-    </div>
-    <nav id="tabs">
-      <button data-t="log" class="on jxh">Giang hồ</button>
-      <button data-t="char" class="tray" data-ic="char" title="Nhân vật" aria-label="Nhân vật"><i></i><em class="dot" id="dotChar"></em></button>
-      <button data-t="skill" class="tray" data-ic="skill" title="Võ công" aria-label="Võ công"><i></i><em class="dot" id="dotSkill"></em></button>
-      <button data-t="inv" class="tray" data-ic="item" title="Hành trang" aria-label="Hành trang"><i></i></button>
-      <button data-t="more" class="jxh">Khác</button>
-    </nav>
-  </div>
+  <div class="bb" id="bb"><canvas id="bbc" width="355" height="92"></canvas><div class="bbtag" id="bbTag" aria-hidden="true"><b>Jx by Kingsoft</b><span class="sep">-</span><i>IDLE Version</i></div><div id="pad"><button class="pbtn sk" data-i="0" aria-label="Ô kỹ năng 1"><i></i><b>1</b></button><button class="pbtn sk" data-i="1" aria-label="Ô kỹ năng 2"><i></i><b>2</b></button><button class="pbtn sk" data-i="2" aria-label="Ô kỹ năng 3"><i></i><b>3</b></button><button class="pbtn sk" data-i="3" aria-label="Ô kỹ năng 4"><i></i><b>4</b></button><button class="pbtn pot hp" id="bHp" title="Bình HP (Q)"><div class="cd"></div><span>HP</span></button><button class="pbtn pot mp" id="bMp" title="Bình MP (E)"><div class="cd"></div><span>MP</span></button><button class="pbtn pot tp" id="bTp" title="Thổ Địa Phù: về thành"><i aria-hidden="true"></i><div class="cd"></div><span>TP</span></button></div><nav id="tabs"><button data-t="log" class="on jxh">Giang hồ</button><button data-t="char" class="tray" data-ic="char" title="Nhân vật" aria-label="Nhân vật"><i></i><em class="dot" id="dotChar"></em></button><button data-t="skill" class="tray" data-ic="skill" title="Võ công" aria-label="Võ công"><i></i><em class="dot" id="dotSkill"></em></button><button data-t="inv" class="tray" data-ic="item" title="Hành trang" aria-label="Hành trang"><i></i></button><button data-t="more" class="jxh">Khác</button></nav></div>
   <div class="bbunder" id="bbunder"><canvas id="bbrow" width="1" height="1"></canvas></div>
-
-  <div id="jxDim" class="hidden"></div>
-  <main id="panel" class="jxc" data-ttl="">
-    <button class="wx" id="jxPX" aria-label="Đóng"></button>
-    <div class="tab" id="t-log"></div>
-    <div class="tab hidden" id="t-char"></div>
-    <div class="tab hidden" id="t-skill"></div>
-    <div class="tab hidden" id="t-inv"></div>
-    <div class="tab hidden" id="t-more"></div>
-  </main>
-
-  <div id="modal" class="hidden" role="dialog" aria-modal="true"><div class="mbox" tabindex="-1"><button class="mx" id="mClose" aria-label="Đóng"></button><div id="mBody"></div></div></div>
-  <div id="toast" role="status" aria-live="polite"></div>
+  <div id="jxDim" class="hidden"></div><main id="panel" class="jxc" data-ttl=""><button class="wx" id="jxPX" aria-label="Đóng"></button><div class="tab" id="t-log"></div><div class="tab hidden" id="t-char"></div><div class="tab hidden" id="t-skill"></div><div class="tab hidden" id="t-inv"></div><div class="tab hidden" id="t-more"></div></main>
+  <div id="modal" class="hidden" role="dialog" aria-modal="true"><div class="mbox" tabindex="-1"><button class="mx" id="mClose" aria-label="Đóng"></button><div id="mBody"></div></div></div><div id="toast" role="status" aria-live="polite"></div>
 </div>
-<script defer src="data.js"></script>
-<script defer src="world.js"></script>
-<script defer src="sound.js"></script>
-<script defer src="fx.js"></script>
-<script defer src="jmo.js"></script>
-<script defer src="js/vi_names.js"></script>
-<script defer src="js/ge_patch.js"></script>
-<script defer src="js/core.js"></script>
-<script defer src="js/modes.js"></script>
-<script defer src="js/mapobs.js"></script>
-<script defer src="js/stats.js"></script>
-<script defer src="js/loot.js"></script>
-<script defer src="js/gear_policy.js"></script>
-<script defer src="rdata.js"></script>
-<script defer src="js/sets.js"></script>
-<script defer src="ref.js"></script>
-<script defer src="js/recipes.js"></script>
-<script defer src="js/combat.js"></script>
-<script defer src="js/save.js"></script>
-<script defer src="js/doll-data.js"></script>
-<script defer src="js/doll.js"></script>
-<script defer src="js/render.js"></script>
-<script defer src="js/audio.js"></script>
-<script defer src="js/ui.js"></script>
-<script defer src="js/control.js"></script>
-<script defer src="js/shop.js"></script>
-<script defer src="js/rewards.js"></script>
-<script defer src="js/siege.js"></script>
-<script defer src="js/activities.js"></script>
-<script defer src="js/depth.js"></script>
-<script defer src="js/builds.js"></script>
-<script defer src="js/journal.js"></script>
-<script defer src="js/forge.js"></script>
-<script defer src="js/auto.js"></script>
-<script defer src="js/admin.js"></script>
-<script defer src="js/guide.js"></script>
-<script defer src="js/stash.js"></script>
-<script defer src="js/survival.js"></script>
-<script defer src="js/modes_play.js"></script>
-<script defer src="js/online.js"></script>
-<script defer src="js/main.js"></script>
-<script defer src="js/jxshell.js"></script>
-<script defer src="js/quick.js"></script>
-<script defer src="js/uihub.js"></script>
-<script defer src="js/feedback.js"></script>
-<script defer src="js/jxorig.js"></script>
+<script defer src="data.js"></script><script defer src="world.js"></script><script defer src="sound.js"></script><script defer src="fx.js"></script><script defer src="jmo.js"></script><script defer src="js/vi_names.js"></script><script defer src="js/ge_patch.js"></script><script defer src="js/core.js"></script><script defer src="js/modes.js"></script><script defer src="js/mapobs.js"></script><script defer src="js/stats.js"></script><script defer src="js/loot.js"></script><script defer src="js/gear_policy.js"></script><script defer src="rdata.js"></script><script defer src="js/sets.js"></script><script defer src="ref.js"></script><script defer src="js/recipes.js"></script><script defer src="js/combat.js"></script><script defer src="js/save.js"></script><script defer src="js/doll-data.js"></script><script defer src="js/doll.js"></script><script defer src="js/render.js"></script><script defer src="js/audio.js"></script><script defer src="js/ui.js"></script><script defer src="js/control.js"></script><script defer src="js/shop.js"></script><script defer src="js/rewards.js"></script><script defer src="js/siege.js"></script><script defer src="js/activities.js"></script><script defer src="js/depth.js"></script><script defer src="js/builds.js"></script><script defer src="js/journal.js"></script><script defer src="js/forge.js"></script><script defer src="js/auto.js"></script><script defer src="js/admin.js"></script><script defer src="js/guide.js"></script><script defer src="js/stash.js"></script><script defer src="js/survival.js"></script><script defer src="js/modes_play.js"></script><script defer src="js/online.js"></script><script defer src="js/main.js"></script><script defer src="js/jxshell.js"></script><script defer src="js/quick.js"></script><script defer src="js/uihub.js"></script><script defer src="js/feedback.js"></script><script defer src="js/jxorig.js"></script><script defer src="ui/start_screen.js"></script>
 </body>
 </html>
