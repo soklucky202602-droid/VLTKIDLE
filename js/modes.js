@@ -279,15 +279,15 @@ const mutVal = (f, d = 1) => {
   return m && m[f] != null ? m[f] : d;
 };
 var ADMV = {
-  xp: 15,
-  gold: 3,
+  xp: 1,
+  gold: 1,
   drop: 1,
   hp: 1,
   dmg: 0.5,
-  heroDmg: 5,
-  spawn: 2.5,
+  heroDmg: 1,
+  spawn: 1,
   lucky: 0,
-  speed: 3,
+  speed: 1,
   god: 0,
   infMana: 0,
   sandbox: 0,
