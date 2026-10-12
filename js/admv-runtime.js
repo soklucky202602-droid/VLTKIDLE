@@ -45,7 +45,9 @@
         const group=ADM_ACT[cmd.action],index=Number(cmd.payload&&cmd.payload.index),action=group&&group[index];
         if(!action||typeof action.fn!=="function"){await sb.rpc("ack_game_command",{p_id:cmd.id,p_result:"Lệnh không hợp lệ"});continue}
         try{
-          const value=cmd.payload?cmd.payload.value:undefined;
+          let value=cmd.payload?cmd.payload.value:undefined;
+          if(value==="MAX_LEVEL"&&typeof MAX_LEVEL!=="undefined")value=MAX_LEVEL;
+          if(value==="STAGES"&&typeof STAGES!=="undefined")value=STAGES;
           const result=action.fn(value);
           if(typeof recalc==="function")recalc();
           if(typeof R!=="undefined"&&R)R.dirty=true;
