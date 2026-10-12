@@ -728,6 +728,7 @@ function onKill(e) {
   dexMark(e.tid);
   R.kills++;
   S.totalKills = (S.totalKills || 0) + 1;
+  if (typeof HorseSystem !== "undefined") HorseSystem.onKill(e);
   burst(e.x, e.y, SERIES_COL[e.series]);
   if (R.tk) {
     R.tk.kills++;
