@@ -53,7 +53,7 @@ function admLockStorage(){const P=Storage.prototype;if(P.__admLock)return;P.__ad
 function admStart(){const ok=document.getElementById("admAgree");if(ok&&!ok.checked){admSay("Hãy đánh dấu ô xác nhận trước khi bật.");return}try{if(typeof save==="function")save()}catch(e){}ADM_CK=S.last||Date.now();admLockStorage();ADMV.sandbox=1;ADM_MSG="Đã bật phiên thử nghiệm.";admRefresh()}
 function admRun(fn,name){let kq="xong";try{kq=fn()||"xong"}catch(e){admSay("Lỗi: "+(e&&e.message));return}R.dirty=true;invDirty=true;try{recalc()}catch(e){}admSay(name+": "+kq);try{log('<span style="color:#8fe34a">[Điều khiển]</span> '+esc(name)+" — "+esc(kq))}catch(e){}if(typeof renderAll==="function")renderAll();admRefresh()}
 const ADM_XS=[];
-setInterval(()=>{if(!ADMV.sandbox||typeof S==="undefined"||!S||!S.fac)return;if(ADMV.god&&R.P)R.life=R.P.life;if(ADMV.infMana&&R.P)R.mana=R.P.mana},150);
+setInterval(()=>{if(typeof S==="undefined"||!S||!S.fac||(!ADMV.god&&!ADMV.infMana))return;if(ADMV.god&&R.P)R.life=R.P.life;if(ADMV.infMana&&R.P)R.mana=R.P.mana},150);
 setInterval(()=>{if(typeof R==="undefined"||!R)return;const t=Date.now();ADM_XS.push([t,R.xpTot||0,R.kills||0]);while(ADM_XS.length>2&&t-ADM_XS[0][0]>6e4)ADM_XS.shift();const el=document.getElementById("admLive");if(!el||!S||!S.fac)return;const a=ADM_XS[0],b=ADM_XS[ADM_XS.length-1],dt=(b[0]-a[0])/1e3||1;el.textContent=`Cấp ${S.lvl} · ải ${admStage()} · ${fmt(Math.round((b[1]-a[1])/dt*60))} EXP/phút · ${((b[2]-a[2])/dt).toFixed(2)} quái/giây · tốc độ ×${gameSpeed()}`},1000);
 function adminHtml(){
  if(!ADMV.sandbox)return'<h3>Bảng điều khiển <small>chỉ chế độ 2.0</small></h3><p class="desc">Chỉnh hệ số EXP, vàng, rơi đồ, quái, tốc độ và cấp, đồ, ải ngay trong lúc chơi để thử nghiệm.</p>'
