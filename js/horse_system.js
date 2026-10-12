@@ -11,8 +11,12 @@
     const s=state();if(!s)return;
     if(!Array.isArray(s.horseStable))s.horseStable=[];
     s.horseStable=s.horseStable.filter(isHorse).slice(0,STABLE_MAX);
-    if(!horse()||!reqOk(horse()))s.horseRiding=false;
-    const h=horse();if(h){h.hlv=Math.max(0,Math.min(MAX_LEVEL,h.hlv|0));h.hxp=Math.max(0,h.hxp|0)}
+    if(!s.eq||typeof s.eq!=="object")s.eq={};
+    if(!Array.isArray(s.inv))s.inv=[];
+    if(!Number.isFinite(+s.gold))s.gold=0;
+    const h=horse();
+    if(!h||typeof reqOk!=="function"||!reqOk(h))s.horseRiding=false;
+    if(h){h.hlv=Math.max(0,Math.min(MAX_LEVEL,h.hlv|0));h.hxp=Math.max(0,h.hxp|0)}
   }
   function toggleRide(){
     const s=state(),h=horse();if(!s)return;
@@ -41,7 +45,7 @@
   }
   function feed(){
     const s=state(),h=horse();if(!s||!h)return;
-    if(!riding()){toast("Hãy lên ngựa trước khi cho ăn.");return}
+    if(!riding()){if(typeof toast==="function")toast("Hãy lên ngựa trước khi cho ăn.");return}
     if((h.hlv|0)>=MAX_LEVEL){toast("Ngựa đã đạt cấp tối đa.");return}
     const cost=2000+Math.max(0,h.hlv|0)*1000;
     if((s.gold|0)<cost){toast("Không đủ ngân lượng để cho ngựa ăn.");return}
@@ -55,6 +59,7 @@
   }
   function store(uid){
     const s=state();if(!s)return;
+    if(!Array.isArray(s.horseStable))s.horseStable=[];
     if(s.horseStable.length>=STABLE_MAX){toast("Mã Trường đã đầy.");return}
     const it=(s.inv||[]).find(x=>x&&String(x.uid)===String(uid));
     if(!isHorse(it)){toast("Không tìm thấy ngựa trong hành trang.");return}
@@ -66,7 +71,9 @@
   }
   function retrieve(uid){
     const s=state();if(!s)return;
+    if(!Array.isArray(s.inv))s.inv=[];
     if(s.inv.length>=INV_MAX){toast("Hành trang đầy.");return}
+    if(!Array.isArray(s.horseStable))s.horseStable=[];
     const i=s.horseStable.findIndex(x=>x&&String(x.uid)===String(uid));
     if(i<0){toast("Không tìm thấy ngựa trong Mã Trường.");return}
     const it=s.horseStable.splice(i,1)[0];s.inv.unshift(it);
