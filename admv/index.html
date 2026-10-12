@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ADMV · VLTKIDLE GM</title>
-<link rel="stylesheet" href="admv.css?v=2">
+<link rel="stylesheet" href="admv.css?v=3">
 </head>
 <body>
 <div class="shell">
@@ -22,7 +22,7 @@
       <button data-tab="overview" class="active">Tổng quan</button><button data-tab="players">Người chơi</button><button data-tab="multipliers">Hệ số ADMV</button><button data-tab="hero">Nhân vật</button><button data-tab="world">Thế giới</button><button data-tab="item">Đồ</button><button data-tab="act">Hoạt động</button><button data-tab="rewards">Phát quà</button><button data-tab="announce">Thông báo</button><button data-tab="codes">Gift code</button><button data-tab="server">Server</button><button data-tab="audit">Nhật ký GM</button>
     </nav>
     <section id="tab-overview" class="tabpane"><div class="grid stats"><div class="stat"><span>Online</span><b id="sOnline">0</b></div><div class="stat"><span>Nhân vật</span><b id="sChars">0</b></div><div class="stat"><span>Gift code</span><b id="sCodes">0</b></div><div class="stat"><span>Listings</span><b id="sMarket">0</b></div></div><div class="card"><div class="section-title">Thao tác nhanh</div><div class="quick"><button data-tabgo="players">🔎 Tìm người chơi</button><button data-tabgo="rewards">🎁 Gửi quà</button><button data-tabgo="announce">📣 Thông báo</button><button data-tabgo="server">⚙ Cân chỉnh server</button></div></div></section>
-    <section id="tab-players" class="tabpane hidden"><div class="card"><div class="row"><input id="playerQ" placeholder="Tên nhân vật..."><button id="searchBtn" class="primary">Tìm</button></div><div id="playersResult" class="table-wrap"></div></div></section>
+    <section id="tab-players" class="tabpane hidden"><div class="card"><div class="row"><input id="playerQ" placeholder="Tên nhân vật..."><button id="searchBtn" class="primary">Tìm</button></div><div id="playersResult" class="table-wrap"></div><div id="playersMsg" class="msg"></div></div></section>
     <section id="tab-multipliers" class="tabpane hidden"><div class="card"><div class="section-title">Hệ số điều khiển ADMV</div><p class="muted">Cấu hình có hiệu lực toàn game, tự đồng bộ xuống client trong tối đa 5 giây.</p><div id="admvSettingsForm"></div><div class="btnrow"><button id="saveAdmvSettings" class="primary">Lưu hệ số</button><button id="resetAdmvSettings" class="ghost">Đặt mặc định</button></div><div id="admvSettingsMsg" class="msg"></div></div></section>
     <section id="tab-hero" class="tabpane hidden"><div class="card"><div class="section-title">Điều khiển nhân vật</div><div class="targetBadge" id="heroTarget">Chưa chọn người chơi. Vào tab Người chơi và bấm Chọn.</div><div id="heroActions" class="action-list"></div><div id="heroMsg" class="msg"></div></div></section>
     <section id="tab-world" class="tabpane hidden"><div class="card"><div class="section-title">Điều khiển thế giới</div><div class="targetBadge" id="worldTarget">Chưa chọn người chơi.</div><div id="worldActions" class="action-list"></div><div id="worldMsg" class="msg"></div></div></section>
@@ -37,6 +37,6 @@
 </div>
 <script src="../auth/config.js?v=2"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="admv.js?v=2"></script>
+<script src="admv.js?v=3"></script>
 </body>
 </html>
