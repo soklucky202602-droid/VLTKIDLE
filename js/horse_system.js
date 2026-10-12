@@ -39,7 +39,6 @@
       if(typeof toast==="function")toast("Ngựa lên "+(h.hlv+1)+" cấp! Chỉ số ngựa tăng.");
       if(typeof log==="function")log('<span class="up">Ngựa '+esc(h.n)+' tăng lên cấp '+(h.hlv+1)+'!</span>');
       if(typeof recalc==="function")recalc();
-      if(typeof renderChar==="function"&&typeof curTab!=="undefined"&&curTab==="char")renderChar();
       if(typeof save==="function")save();
     }
   }
@@ -81,8 +80,8 @@
     save();if(typeof refresh==="function")refresh();else renderCard();
     toast("Đã đưa "+it.n+" về hành trang.");
   }
-  function renderCard(){
-    const s=state(),root=document.querySelector("#t-char");if(!s||!root)return;
+  function horseHTML(){
+    const s=state();if(!s)return '<p class="dim">Chưa có nhân vật.</p>';
     init();
     const h=horse(),inv=(s.inv||[]).filter(isHorse),stable=s.horseStable||[];
     let hHtml='<p class="dim small">Chưa có ngựa đang trang bị.</p>';
@@ -92,21 +91,44 @@
     }
     const invHtml=inv.length?inv.map(it=>'<div class="horse-row"><span><b>'+esc(it.n)+'</b><small class="dim">Cấp yêu cầu '+(it.lvl||1)+'</small></span><button class="btn sm" data-hstable="'+esc(it.uid)+'">Cất</button></div>').join(""):'<small class="dim">Không có ngựa trong hành trang.</small>';
     const stableHtml=stable.length?stable.map(it=>'<div class="horse-row"><span><b>'+esc(it.n)+'</b><small class="dim">Cấp yêu cầu '+(it.lvl||1)+' · cấp ngựa '+((it.hlv|0)+1)+'</small></span><button class="btn sm" data-hretrieve="'+esc(it.uid)+'">Lấy ra</button></div>').join(""):'<small class="dim">Mã Trường đang trống.</small>';
-    const card='<section class="card horse-system" id="horseSystemCard"><h3>🐎 Hệ thống ngựa <small>'+stable.length+'/'+STABLE_MAX+' ô Mã Trường</small></h3>'+hHtml+'<div class="btnrow"><button class="btn" id="horseRideToggle" '+(!h||!reqOk(h)?'disabled':'')+'>'+(riding()?'Xuống ngựa':'Lên ngựa')+'</button><button class="btn" id="horseFeed" '+(!riding()||((h&&h.hlv|0)>=MAX_LEVEL)?'disabled':'')+'>Cho ăn (+25 EXP)</button></div><p class="dim small">Khi cưỡi: tăng tốc độ di chuyển. Ngựa nhận EXP khi hạ quái (thường +1, tinh anh +3, trùm +10).</p><h4>Ngựa trong hành trang</h4>'+invHtml+'<h4>Mã Trường</h4>'+stableHtml+'</section>';
-    const old=root.querySelector("#horseSystemCard");if(old)old.remove();root.insertAdjacentHTML("beforeend",card);
+    return '<section class="card horse-system" id="horseSystemCard"><h3>🐎 Hệ thống ngựa <small>'+stable.length+'/'+STABLE_MAX+' ô Mã Trường</small></h3>'+hHtml+'<div class="btnrow"><button class="btn" id="horseRideToggle" '+(!h||!reqOk(h)?'disabled':'')+'>'+(riding()?'Xuống ngựa':'Lên ngựa')+'</button><button class="btn" id="horseFeed" '+(!riding()||((h&&h.hlv|0)>=MAX_LEVEL)?'disabled':'')+'>Cho ăn (+25 EXP)</button></div><p class="dim small">Khi cưỡi: tăng tốc độ di chuyển. Ngựa nhận EXP khi hạ quái (thường +1, tinh anh +3, trùm +10).</p><h4>Ngựa trong hành trang</h4>'+invHtml+'<h4>Mã Trường</h4>'+stableHtml+'</section>';
+  }
+  function bindHorse(root){
+    if(!root)return;
     const ride=root.querySelector("#horseRideToggle"),feedBtn=root.querySelector("#horseFeed");
     if(ride)ride.onclick=toggleRide;if(feedBtn)feedBtn.onclick=feed;
     root.querySelectorAll("[data-hstable]").forEach(b=>b.onclick=()=>store(b.dataset.hstable));
     root.querySelectorAll("[data-hretrieve]").forEach(b=>b.onclick=()=>retrieve(b.dataset.hretrieve));
   }
-  window.HorseSystem={isHorse,horse,isRiding:riding,speedMultiplier,onKill:gainExp,toggle:toggleRide,render:renderCard,init};
+  function renderCard(){
+    const root=document.querySelector("#t-char");if(!root)return;
+    const old=root.querySelector("#horseSystemCard");if(old)old.remove();
+    root.insertAdjacentHTML("beforeend",horseHTML());bindHorse(root);
+  }
+  function renderGift(){
+    const root=document.querySelector("#mBody");if(!root)return;
+    root.innerHTML='<h3>Phần thưởng <small>🐎 Ngựa</small></h3><div class="horse-gift-head"><button class="btn sm" id="horseGiftBack">← Quay lại Quà</button></div>'+horseHTML();
+    bindHorse(root);
+    const back=root.querySelector("#horseGiftBack");
+    if(back)back.onclick=()=>{if(typeof window.giftModal==="function")window.giftModal()};
+  }
+  function patchGift(){
+    if(typeof window.giftModal!=="function"||window.__horseGiftPatched)return;
+    const original=window.giftModal;
+    window.giftModal=function(){
+      original.apply(this,arguments);
+      const tabs=document.querySelector("#giftTabs");
+      if(!tabs||tabs.querySelector('[data-g="horse"]'))return;
+      const b=document.createElement("button");b.type="button";b.dataset.g="horse";b.textContent="Ngựa";
+      tabs.appendChild(b);
+      b.onclick=()=>{tabs.querySelectorAll("button").forEach(x=>x.classList.remove("on"));b.classList.add("on");renderGift()};
+    };
+    window.__horseGiftPatched=true;
+  }
+  window.HorseSystem={isHorse,horse,isRiding:riding,speedMultiplier,onKill:gainExp,toggle:toggleRide,render:renderCard,renderGift,init};
   document.addEventListener("DOMContentLoaded",()=>{
     init();
-    if(typeof window.renderChar==="function"&&!window.__horseRenderPatched){
-      const old=window.renderChar;
-      window.renderChar=function(){old.apply(this,arguments);renderCard()};
-      window.__horseRenderPatched=true;
-    }
-    if(document.querySelector("#t-char")?.innerHTML)renderCard();
+    patchGift();
+    if(typeof window.giftModal==="function")setTimeout(patchGift,0);
   },{once:true});
 })();
