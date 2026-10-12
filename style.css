@@ -335,3 +335,15 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 .reborn-tpdesc{display:block;margin-top:2px;line-height:1.4}
 .reborn-tpbtn{min-width:64px}
 @media(max-width:520px){.reborn-grid{grid-template-columns:1fr}.reborn-stat>b{font-size:16px}}
+
+.horse-system{margin-top:14px;border:1px solid #65512a}
+.horse-system h3{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.horse-system h4{margin:14px 0 8px;font-size:13px;color:#d8bd78}
+.horse-detail{padding:10px 0}
+.horse-detail>b{font-size:16px;color:#ffe3a1}
+.horse-xp{height:6px;border-radius:6px;overflow:hidden;background:#292a23;margin:8px 0}
+.horse-xp i{display:block;height:100%;background:linear-gradient(90deg,#a26c27,#f4d47d)}
+.horse-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-top:1px solid #34352e}
+.horse-row span{min-width:0;overflow-wrap:anywhere}
+.horse-row small{display:block}
+@media(max-width:520px){.horse-system h3{align-items:flex-start;flex-direction:column}.horse-row{align-items:flex-start}}
