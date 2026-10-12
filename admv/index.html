@@ -1,1 +1,37 @@
-<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>VLTK IDLE — ADMV</title><meta http-equiv="refresh" content="0;url=../admin.html"></head><body><script>location.replace('../admin.html');</script></body></html>
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ADMV · VLTKIDLE GM</title>
+<link rel="stylesheet" href="admv.css?v=2">
+</head>
+<body>
+<div class="shell">
+  <header class="top">
+    <div><div class="brand">ADMV</div><div class="sub">VLTKIDLE · GM CONTROL</div></div>
+    <div class="top-right"><span id="gmEmail">Chưa đăng nhập</span><button id="logout" class="ghost hidden">Đăng xuất</button></div>
+  </header>
+  <section id="loginView" class="card login">
+    <h1>GM Login</h1><p>Chỉ tài khoản nằm trong danh sách GM mới được sử dụng ADMV.</p>
+    <input id="email" type="email" placeholder="Email GM"><input id="password" type="password" placeholder="Mật khẩu">
+    <button id="loginBtn" class="primary">Đăng nhập</button><div id="loginMsg" class="msg"></div>
+  </section>
+  <main id="appView" class="hidden">
+    <nav class="tabs">
+      <button data-tab="overview" class="active">Tổng quan</button><button data-tab="players">Người chơi</button><button data-tab="rewards">Phát quà</button><button data-tab="announce">Thông báo</button><button data-tab="codes">Gift code</button><button data-tab="server">Server</button><button data-tab="audit">Nhật ký GM</button>
+    </nav>
+    <section id="tab-overview" class="tabpane"><div class="grid stats"><div class="stat"><span>Online</span><b id="sOnline">0</b></div><div class="stat"><span>Nhân vật</span><b id="sChars">0</b></div><div class="stat"><span>Gift code</span><b id="sCodes">0</b></div><div class="stat"><span>Listings</span><b id="sMarket">0</b></div></div><div class="card"><div class="section-title">Thao tác nhanh</div><div class="quick"><button data-tabgo="players">🔎 Tìm người chơi</button><button data-tabgo="rewards">🎁 Gửi quà</button><button data-tabgo="announce">📣 Thông báo</button><button data-tabgo="server">⚙ Cân chỉnh server</button></div></div></section>
+    <section id="tab-players" class="tabpane hidden"><div class="card"><div class="row"><input id="playerQ" placeholder="Tên nhân vật..."><button id="searchBtn" class="primary">Tìm</button></div><div id="playersResult" class="table-wrap"></div></div></section>
+    <section id="tab-rewards" class="tabpane hidden"><div class="card"><div class="section-title">Gửi quà GM → người chơi</div><div class="form-grid"><label>Nhân vật<input id="rewardTo" placeholder="Tên nhân vật"></label><label>Vàng<input id="rewardGold" type="number" min="0" value="0"></label><label>KNB<input id="rewardKnb" type="number" min="0" value="0"></label><label>Ghi chú<input id="rewardNote" maxlength="100" placeholder="Quà GM"></label><label class="wide">Item JSON<input id="rewardItem" placeholder='{"n":"Tên vật phẩm","id":123,"qty":1}'></label></div><button id="sendReward" class="primary">Gửi thư</button><div id="rewardMsg" class="msg"></div></div></section>
+    <section id="tab-announce" class="tabpane hidden"><div class="card"><div class="section-title">Thông báo thế giới</div><textarea id="announceText" maxlength="240" placeholder="Nội dung thông báo..."></textarea><button id="announceBtn" class="primary">Phát thông báo</button><div id="announceMsg" class="msg"></div></div></section>
+    <section id="tab-codes" class="tabpane hidden"><div class="card"><div class="section-title">Tạo Gift Code</div><div class="form-grid"><label>Mã<input id="code" placeholder="VLTK2026"></label><label>Lượt dùng<input id="maxUses" type="number" min="1" value="100"></label><label>Hết hạn<input id="expires" type="datetime-local"></label><label class="wide">Payload JSON<input id="codePayload" placeholder='{"gold":100000,"knb":100}'></label></div><button id="createCode" class="primary">Tạo code</button><div id="codeMsg" class="msg"></div><div id="codesResult" class="table-wrap"></div></div></section>
+    <section id="tab-server" class="tabpane hidden"><div class="card"><div class="section-title">Cân chỉnh server</div><p class="muted">ADMV lưu cấu hình trung tâm vào <code>game_settings</code>. Game VLTKIDLE sẽ đọc lại các hệ số EXP, vàng, drop và trạng thái bảo trì.</p><div class="form-grid"><label>EXP multiplier<input id="setExp" type="number" min="0" step="0.1" value="1"></label><label>Gold multiplier<input id="setGold" type="number" min="0" step="0.1" value="1"></label><label>Drop multiplier<input id="setDrop" type="number" min="0" step="0.1" value="1"></label><label>Maintenance<input id="setMaint" type="checkbox"></label></div><button id="saveSettings" class="primary">Lưu cấu hình</button><div id="serverMsg" class="msg"></div></div></section>
+    <section id="tab-audit" class="tabpane hidden"><div class="card"><div class="section-title">Nhật ký GM</div><div id="auditResult" class="table-wrap"></div></div></section>
+  </main>
+</div>
+<script src="../auth/config.js?v=2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="admv.js?v=2"></script>
+</body>
+</html>
