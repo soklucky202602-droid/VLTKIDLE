@@ -115,13 +115,28 @@ async function loadPlayers(){
  }catch(e){$("playersResult").textContent=e.message}
 }
 $("searchBtn").onclick=loadPlayers;
+function actionOptionLabel(group,index,name,v){
+ if(group==="hero"&&index===0)return v==="MAX_LEVEL"?"Cấp tối đa":"Cấp "+v;
+ if(group==="hero"&&index===1)return "+"+v+" điểm";
+ if(group==="hero"&&index===2)return "+"+v+" điểm võ công";
+ if(group==="hero"&&index===3)return fmt(v)+" lượng";
+ if(group==="world"&&index===0)return v==="STAGES"?"Ải cuối":"Ải "+v;
+ if(group==="world"&&index===4)return v+" tinh anh";
+ if(group==="item"&&index===0)return v+" dòng";
+ if(group==="act"&&index===1)return v+" tầng";
+ if(group==="act"&&index===2)return fmt(v)+" lệnh";
+ if(group==="act"&&index===3)return fmt(v)+" lệnh";
+ if(group==="act"&&index===4)return fmt(v)+" điểm";
+ if(group==="act"&&index===5)return v+" phút";
+ return String(v);
+}
 function renderRemoteActions(){
  for(const group of Object.keys(REMOTE_ACTIONS)){
   const actions=REMOTE_ACTIONS[group],dest=$(group+"Actions");if(!dest)continue;
   dest.innerHTML=actions.map((a,i)=>{
    let options="";
    if(a.opts)options='<select class="action-value" data-value-for="'+group+"-"+i+'">'+a.opts.map(v=>{
-    const label=(a.n==="Ngân lượng"||a.n.indexOf("Lệnh")>=0||a.n==="Phúc Duyên")?fmt(v):optLabel(group==="hero"&&i===0?"lvl":group==="hero"&&i===3?"gold":"",v);
+    const label=actionOptionLabel(group,i,a.n,v);
     return '<option value="'+String(v)+'">'+esc(label)+'</option>';
    }).join("")+'</select>';
    else options='<span class="action-no-value">Không cần giá trị</span>';
