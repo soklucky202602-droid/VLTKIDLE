@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VLTK IDLE — GM Admin</title>
+<style>
+:root{color-scheme:dark;--bg:#0b0d12;--panel:#131722;--line:#293044;--text:#edf1f7;--muted:#8e98ad;--accent:#d7a84b;--danger:#d65b5b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#1a1d29 0,#0b0d12 48%);color:var(--text);font:14px system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}.wrap{width:min(1050px,calc(100% - 32px));margin:32px auto}.head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px}.title{font-size:25px;font-weight:800}.sub{color:var(--muted);margin-top:4px}.badge{padding:7px 11px;border:1px solid #4a3a1d;border-radius:999px;color:#f0c66b;background:#20190d}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card{background:rgba(19,23,34,.94);border:1px solid var(--line);border-radius:14px;padding:18px}.card h2{font-size:16px;margin:0 0 14px}.row{display:grid;grid-template-columns:1fr 150px;align-items:center;gap:12px;padding:10px 0;border-top:1px solid #202638}.row:first-of-type{border-top:0}.name{font-weight:650}.desc{font-size:12px;color:var(--muted);margin-top:3px}select,input{width:100%;background:#0c1018;color:var(--text);border:1px solid #30394e;border-radius:8px;padding:9px}.flags{display:grid;grid-template-columns:1fr 1fr;gap:10px}.check{display:flex;align-items:center;gap:9px;padding:11px;border:1px solid var(--line);border-radius:9px}.check input{width:auto}.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}.btn{border:1px solid #39435a;background:#1a2030;color:var(--text);padding:10px 14px;border-radius:9px;cursor:pointer;font-weight:650}.btn:hover{border-color:#66718b}.primary{background:#765719;border-color:#a77c26;color:#fff}.danger{border-color:#713535;color:#ffb1b1}.presets{display:flex;flex-wrap:wrap;gap:8px}.status{margin-top:15px;min-height:20px;color:#8fe0a2}.note{margin-top:18px;padding:12px 14px;border:1px dashed #3b4354;border-radius:10px;color:var(--muted);line-height:1.5}.full{grid-column:1/-1}@media(max-width:760px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.head{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head"><div><div class="title">VLTK IDLE — GM Admin</div><div class="sub">Trang quản trị riêng · chỉnh ADMV, không thêm giao diện GM vào game</div></div><div class="badge">ADMIN</div></div>
+  <div class="grid">
+    <section class="card"><h2>Hệ số</h2><div id="mul"></div></section>
+    <section class="card"><h2>Chế độ đặc biệt</h2><div class="flags"><label class="check"><input id="god" type="checkbox"> Bất tử</label><label class="check"><input id="infMana" type="checkbox"> Nội lực vô hạn</label></div><div class="row" style="margin-top:8px"><div><div class="name">Sandbox</div><div class="desc">Thử nghiệm, hạn chế ghi dữ liệu lưu</div></div><select id="sandbox"><option value="0">Tắt</option><option value="1">Bật</option></select></div></section>
+    <section class="card full"><h2>Preset nhanh</h2><div class="presets" id="presets"></div><div class="actions"><button class="btn primary" id="apply">Áp dụng</button><button class="btn" id="reset">Đặt lại mặc định</button><button class="btn" id="copy">Sao chép cấu hình</button><button class="btn danger" id="clear">Xoá cấu hình đã lưu</button></div><div class="status" id="status"></div><div class="note">Cấu hình được lưu trên trình duyệt bằng <b>localStorage</b>. Sau khi bấm <b>Áp dụng</b>, hãy tải lại game để ADMV mới có hiệu lực. Đây là công cụ client-side, không phải hệ thống phân quyền server.</div></section>
+  </div>
+</div>
+<script>
+'use strict';
+const KEY='jxidle_admv';
+const DEF={xp:1,gold:1,drop:1,hp:1,dmg:1,heroDmg:1,spawn:1,lucky:0,speed:1,god:0,infMana:0,sandbox:0};
+const FIELDS=[
+ ['xp','EXP nhận được',[0.5,1,2,3,5,10,25,100]],['gold','Vàng rơi',[0.5,1,2,5,10,50]],['drop','Tỉ lệ rơi đồ',[0.5,1,2,3,5,10]],['hp','Máu quái',[0.1,0.25,0.5,1,2,5,10]],['dmg','Sát thương quái',[0,0.25,0.5,1,2,5]],['heroDmg','Sát thương của bạn',[0.5,1,2,5,10,100,1000000]],['spawn','Số quái mỗi đợt',[0.5,1,2,3,5]],['lucky','May mắn cộng thêm',[0,10,25,50,100,200]],['speed','Tốc độ game',[0.5,1,1.5,2.5,5,10]]
+];
+const PRESETS={
+ 'Cày nhanh':{xp:10,speed:5,spawn:2},'Săn đồ':{drop:5,lucky:50,gold:3,spawn:2},'Đánh trùm':{hp:.5,heroDmg:5},'Thử tải':{spawn:5,speed:10}
+};
+const label=v=>v===1000000?'Một đòn':`×${v}`;
+let state=load();
+function load(){try{return Object.assign({},DEF,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){return {...DEF}}}
+function render(){
+ const box=document.getElementById('mul');box.innerHTML='';
+ for(const [k,n,opts] of FIELDS){const r=document.createElement('div');r.className='row';r.innerHTML=`<div><div class="name">${n}</div><div class="desc">${k==='lucky'?'Giá trị cộng thêm':k==='speed'?'Tốc độ mô phỏng': 'Hệ số ADMV.'}</div></div>`;const s=document.createElement('select');s.dataset.k=k;for(const v of opts){const o=document.createElement('option');o.value=v;o.textContent=label(v);if(+state[k]===v)o.selected=true;s.appendChild(o)}r.appendChild(s);box.appendChild(r)}
+ document.getElementById('god').checked=!!state.god;document.getElementById('infMana').checked=!!state.infMana;document.getElementById('sandbox').value=state.sandbox?'1':'0';
+}
+function read(){const o={...DEF};document.querySelectorAll('#mul select').forEach(s=>o[s.dataset.k]=+s.value);o.god=document.getElementById('god').checked?1:0;o.infMana=document.getElementById('infMana').checked?1:0;o.sandbox=+document.getElementById('sandbox').value;return o}
+function save(o,msg='Đã áp dụng cấu hình GM.'){state=o;localStorage.setItem(KEY,JSON.stringify(o));render();document.getElementById('status').textContent=msg}
+for(const [n,p] of Object.entries(PRESETS)){const b=document.createElement('button');b.className='btn';b.textContent=n;b.onclick=()=>save(Object.assign({...DEF},p),'Đã chọn preset: '+n);document.getElementById('presets').appendChild(b)}
+document.getElementById('apply').onclick=()=>save(read());
+document.getElementById('reset').onclick=()=>save({...DEF},'Đã đặt lại ADMV mặc định.');
+document.getElementById('clear').onclick=()=>{localStorage.removeItem(KEY);state={...DEF};render();document.getElementById('status').textContent='Đã xoá cấu hình GM.'};
+document.getElementById('copy').onclick=async()=>{const txt=JSON.stringify(read(),null,2);try{await navigator.clipboard.writeText(txt);document.getElementById('status').textContent='Đã sao chép JSON cấu hình.'}catch(e){prompt('Sao chép cấu hình:',txt)}};
+render();
+</script>
+</body>
+</html>
