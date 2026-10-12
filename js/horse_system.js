@@ -26,7 +26,7 @@
     if(typeof recalc==="function")recalc();
     if(typeof save==="function")save();
     if(typeof toast==="function")toast(s.horseRiding?"Đã lên ngựa":"Đã xuống ngựa");
-    renderCard();if(typeof updateTop==="function")updateTop();
+    refreshHorseUI();if(typeof updateTop==="function")updateTop();
   }
   function gainExp(e){
     const h=horse(),s=state();if(!s||!h||!riding())return;
@@ -54,7 +54,7 @@
     if(h.hlv>=MAX_LEVEL)h.hxp=0;
     if(levels&&typeof recalc==="function")recalc();
     save();toast(levels?"Ngựa lên "+(h.hlv+1)+" cấp!":"Đã cho ngựa ăn: +25 kinh nghiệm.");
-    renderCard();if(typeof updateTop==="function")updateTop();
+    refreshHorseUI();if(typeof updateTop==="function")updateTop();
   }
   function store(uid){
     const s=state();if(!s)return;
@@ -65,8 +65,7 @@
     if(it.locked||it.lock){toast("Ngựa đang khóa, hãy mở khóa trước.");return}
     s.inv.splice(s.inv.indexOf(it),1);s.horseStable.push(it);
     if(typeof invDirty!=="undefined")invDirty=true;
-    save();if(typeof refresh==="function")refresh();else renderCard();
-    toast("Đã cất "+it.n+" vào Mã Trường.");
+    save();refreshHorseUI();toast("Đã cất "+it.n+" vào Mã Trường.");
   }
   function retrieve(uid){
     const s=state();if(!s)return;
@@ -77,8 +76,7 @@
     if(i<0){toast("Không tìm thấy ngựa trong Mã Trường.");return}
     const it=s.horseStable.splice(i,1)[0];s.inv.unshift(it);
     if(typeof invDirty!=="undefined")invDirty=true;
-    save();if(typeof refresh==="function")refresh();else renderCard();
-    toast("Đã đưa "+it.n+" về hành trang.");
+    save();refreshHorseUI();toast("Đã đưa "+it.n+" về hành trang.");
   }
   function horseHTML(){
     const s=state();if(!s)return '<p class="dim">Chưa có nhân vật.</p>';
@@ -111,6 +109,10 @@
     bindHorse(root);
     const back=root.querySelector("#horseGiftBack");
     if(back)back.onclick=()=>{if(typeof window.giftModal==="function")window.giftModal()};
+  }
+  function refreshHorseUI(){
+    const modalBody=document.querySelector("#mBody");
+    if(modalBody&&modalBody.querySelector("#horseSystemCard")){renderGift();return}
   }
   function patchGift(){
     if(typeof window.giftModal!=="function"||window.__horseGiftPatched)return;
